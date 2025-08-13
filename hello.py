@@ -1,11 +1,12 @@
 from tkinter import *
+from tkinter import ttk
 
 root = Tk()
 
-myLabel1 = Label(root, text="Hello World!")
-myLabel2 = Label(root, text="My Name is John Elder!")
+def myClick():
+    myLabel = ttk.Label(root, text="Look! I clicked a Button!!")
+    myLabel.grid(column=0,row=1)
 
-myLabel1.grid(row=0, column=0)
-myLabel2.grid(row=1, column=1)
+myButton = ttk.Button(root, text="My Text", padding="10", command=myClick).grid(column=0, row=0)
 
 root.mainloop()
