@@ -6,56 +6,48 @@ root = Tk()
 root.title("Learn to Code at Codemy.com")
 root.iconbitmap("tk.ico")
 
-my_img1 = ImageTk.PhotoImage(Image.open("images/9.jpg"))
-my_img2 = ImageTk.PhotoImage(Image.open("images/13.jpg"))
-my_img3 = ImageTk.PhotoImage(Image.open("images/15.jpg"))
-my_img4 = ImageTk.PhotoImage(Image.open("images/25.jpg"))
-my_img5 = ImageTk.PhotoImage(Image.open("images/44.jpg"))
+files_list = [
+    "images/9.jpg",
+    # "images/304762-003.jpg",
+    "images/13.jpg",
+    "images/15.jpg",
+    "images/25.jpg",
+    "images/34.jpg",
+    "images/44.jpg",
+    "images/46.jpg",
+    "images/61.jpg",
+    "images/68.jpg",
+]
 
+image_list = [ImageTk.PhotoImage(Image.open(f)) for f in files_list]
 
-image_list = [my_img1, my_img2, my_img3, my_img4, my_img5]
+image_number = 0
 
-status = ttk.Label(root, text=f"Image 1 of {len(image_list)}", relief="sunken", anchor="e")
+status = ttk.Label(
+    root, text=f"Image 1 of {len(image_list)} ", relief="sunken", anchor="e"
+)
 
-my_label = ttk.Label(image=my_img1)
+my_label = ttk.Label(root, image=image_list[0])
 my_label.grid(column=0, row=0, columnspan=3)
 
-def forward(image_number):
-    global my_label
-    global button_forward
-    global button_back
 
-    my_label.grid_forget()
-    my_label = ttk.Label(image=image_list[image_number])
-    button_forward = ttk.Button(root, text=">>", command=lambda: forward(image_number+1))
-    button_back = ttk.Button(root, text="<<", command=lambda: back(image_number-1))
-    if image_number == 4:
-        button_forward = ttk.Button(root, text=">>", state="disabled")
-    my_label.grid(column=0, row=0, columnspan=3)
-    button_back.grid(column=0, row=1)
-    button_forward.grid(column=2, row=1)
-    status = ttk.Label(root, text=f"Image {image_number + 1} of {len(image_list)}", relief="sunken", anchor="e")
-    status.grid(column=0, row=2, columnspan=3, sticky="ew", ipadx=3, ipady=3)
-
-def back(image_number=0):
-    global my_label
-    global button_forward
-    global button_back
-    my_label.grid_forget()
-    my_label = ttk.Label(image=image_list[image_number])
-    button_forward = ttk.Button(root, text=">>", command=lambda: forward(image_number+1))
-    button_back = ttk.Button(root, text="<<", command=lambda: back(image_number-1))
+def step(step) -> None:
+    global image_number
+    image_number = eval(f"{image_number}{step}")
     if image_number == 0:
-        button_back = ttk.Button(root, text="<<", state="disabled")
-    my_label.grid(column=0, row=0, columnspan=3)
-    button_back.grid(column=0, row=1)
-    button_forward.grid(column=2, row=1)
-    status = ttk.Label(root, text=f"Image {image_number + 1} of {len(image_list)}", relief="sunken", anchor="e")
-    status.grid(column=0, row=2, columnspan=3, sticky="ew", ipadx=3, ipady=3)
+        button_back["state"] = "disabled"
+    elif image_number == len(image_list) - 1:
+        button_forward["state"] = "disabled"
+    else:
+        button_forward["state"] = "!disabled"
+        button_back["state"] = "!disabled"
+    my_label["image"] = image_list[image_number]
+    status["text"] = f"Image {image_number + 1} of {len(image_list)} "
 
-button_back = ttk.Button(root, text="<<", command=lambda: back())
+
+button_back = ttk.Button(root, text="<<", state="disabled", command=lambda: step("-1"))
 button_exit = ttk.Button(root, text="Quit", command=root.quit)
-button_forward = ttk.Button(root, text=">>", command=lambda: forward(1))
+button_forward = ttk.Button(root, text=">>", command=lambda: step("+1"))
 
 button_back.grid(column=0, row=1)
 button_exit.grid(column=1, row=1, pady=10)
