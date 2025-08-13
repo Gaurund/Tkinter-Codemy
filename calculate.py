@@ -49,7 +49,7 @@ def equal():
         result += f"{numbers[i]}{operations[i]}"
     numbers.clear()
     operations.clear()
-    entry.delete(0, "end")    
+    entry.delete(0, "end")
     entry.insert(0, eval(result))
 
 
