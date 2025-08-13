@@ -15,6 +15,8 @@ my_img5 = ImageTk.PhotoImage(Image.open("images/44.jpg"))
 
 image_list = [my_img1, my_img2, my_img3, my_img4, my_img5]
 
+status = ttk.Label(root, text=f"Image 1 of {len(image_list)}", relief="sunken", anchor="e")
+
 my_label = ttk.Label(image=my_img1)
 my_label.grid(column=0, row=0, columnspan=3)
 
@@ -32,6 +34,8 @@ def forward(image_number):
     my_label.grid(column=0, row=0, columnspan=3)
     button_back.grid(column=0, row=1)
     button_forward.grid(column=2, row=1)
+    status = ttk.Label(root, text=f"Image {image_number + 1} of {len(image_list)}", relief="sunken", anchor="e")
+    status.grid(column=0, row=2, columnspan=3, sticky="ew", ipadx=3, ipady=3)
 
 def back(image_number=0):
     global my_label
@@ -46,14 +50,17 @@ def back(image_number=0):
     my_label.grid(column=0, row=0, columnspan=3)
     button_back.grid(column=0, row=1)
     button_forward.grid(column=2, row=1)
+    status = ttk.Label(root, text=f"Image {image_number + 1} of {len(image_list)}", relief="sunken", anchor="e")
+    status.grid(column=0, row=2, columnspan=3, sticky="ew", ipadx=3, ipady=3)
 
 button_back = ttk.Button(root, text="<<", command=lambda: back())
 button_exit = ttk.Button(root, text="Quit", command=root.quit)
 button_forward = ttk.Button(root, text=">>", command=lambda: forward(1))
 
 button_back.grid(column=0, row=1)
-button_exit.grid(column=1, row=1)
+button_exit.grid(column=1, row=1, pady=10)
 button_forward.grid(column=2, row=1)
 
+status.grid(column=0, row=2, columnspan=3, sticky="ew", ipadx=3, ipady=3)
 
 root.mainloop()
